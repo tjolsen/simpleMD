@@ -39,3 +39,6 @@
 
 # emacs backups
 *~
+
+#simpleMD output files
+*.smd
