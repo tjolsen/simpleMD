@@ -26,3 +26,16 @@
 *.exe
 *.out
 *.app
+
+# Image files
+.png
+.jpg
+.jpeg
+.tif
+.tiff
+
+# make dependency file
+.depend
+
+# emacs backups
+*~
