@@ -28,11 +28,11 @@
 *.app
 
 # Image files
-.png
-.jpg
-.jpeg
-.tif
-.tiff
+*.png
+*.jpg
+*.jpeg
+*.tif
+*.tiff
 
 # make dependency file
 .depend
@@ -42,3 +42,4 @@
 
 #simpleMD output files
 *.smd
+
