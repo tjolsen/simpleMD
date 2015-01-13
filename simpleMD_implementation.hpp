@@ -20,7 +20,7 @@ void simpleMD<NSD>::setup() {
   
   nsd = NSD;
   L = 100;
-  nParticles = 10000;
+  nParticles = 1000;
   vo = 10;
   R = 0.1;
   coeff_rest = 1.0;
@@ -276,10 +276,10 @@ void simpleMD<NSD>::handleCollisionEvent(Event e) {
     particles[id1].v[dim] *= -coeff_rest;
 
     //log wall collision
-    datafile << "$Event,"<<1<<","<<e.time<<std::endl;
-    datafile << id1 << ",";
+    datafile << "$Event,"<<1<<" "<<e.time<<std::endl;
+    datafile << id1 << " ";
     for(unsigned i=0; i<NSD-1; ++i) {
-      datafile << particles[id1].v[i] << ",";
+      datafile << particles[id1].v[i] << " ";
     }
     datafile << particles[id1].v[NSD-1] << std::endl;;
     
@@ -317,15 +317,15 @@ void simpleMD<NSD>::handleCollisionEvent(Event e) {
   }
 
   //log event in output
-  datafile << "$Event,"<<2<<","<<e.time<<std::endl;
-  datafile << id1 << ",";
+  datafile << "$Event,"<<2<<" "<<e.time<<std::endl;
+  datafile << id1 << " ";
   for(unsigned i=0; i<NSD-1; ++i) {
-    datafile << particles[id1].v[i] << ",";
+    datafile << particles[id1].v[i] << " ";
   }
   datafile << particles[id1].v[NSD-1] << std::endl;;
-  datafile << id2 << ",";
+  datafile << id2 << " ";
   for(unsigned i=0; i<NSD-1; ++i) {
-    datafile << particles[id2].v[i] << ",";
+    datafile << particles[id2].v[i] << " ";
   }
   datafile << particles[id2].v[NSD-1] << std::endl;;
 }

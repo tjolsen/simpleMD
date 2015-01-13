@@ -6,3 +6,5 @@
   - use class Timg_FrameRenderer : public FrameRenderer {};
   - someday implement class Povray_FrameRenderer : public FrameRenderer {};
   - virtual parent class to define interface
+
+- Documentation....code is poorly commented at this point
