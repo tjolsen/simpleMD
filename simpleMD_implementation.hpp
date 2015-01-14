@@ -3,8 +3,6 @@
 
 #include <cstdlib>
 #include <ctime>
-#include "timg.h"
-#include "timg_drawing.h"
 
 template<unsigned NSD>
 simpleMD<NSD>::simpleMD() {
@@ -19,9 +17,9 @@ template<unsigned NSD>
 void simpleMD<NSD>::setup() {
   
   nsd = NSD;
-  L = 100;
-  nParticles = 1000;
-  vo = 10;
+  L = 1;
+  nParticles = 5;
+  vo = 1;
   R = 0.1;
   coeff_rest = 1.0;
   Tmax = 10;
@@ -67,34 +65,26 @@ void simpleMD<NSD>::setup() {
   }
 
   //write data file initial data
-  datafile << nParticles << "," << NSD << std::endl;
+  datafile << nParticles << " " << NSD << std::endl;
   for(unsigned p=0; p<nParticles; ++p) {
     Particle<NSD> P = particles[p];
     for(unsigned i=0; i<NSD; ++i) {
-      datafile << P.x[i] << ",";
+      datafile << P.x[i] << " ";
     }
-    for(unsigned i=0; i<NSD-1; ++i) {
-      datafile << P.v[i] << ",";
+    for(unsigned i=0; i<NSD; ++i) {
+      datafile << P.v[i] << " ";
     }
-    datafile << P.v[NSD-1] << std::endl;
+    datafile << P.R << std::endl;
   }
 }
 
 template<unsigned NSD>
 void simpleMD<NSD>::run() {
-  char buf[128];
-  int frame = 0;
   double time = 0;
 
   for(unsigned p=0; p<nParticles; ++p) {
     enqueueEvents(p, time);
   }
-  
-  //draw initial config
-  sprintf(buf, "img_%05d.png", frame++);
-  draw(std::string(buf));
-
-
   
   //main loop
   while(time < Tmax) {
@@ -147,12 +137,7 @@ void simpleMD<NSD>::run() {
       enqueueEvents(e.p2, time);
     }
     
-
-
-    //draw output frame
-    //sprintf(buf, "img_%05d.png", frame++);
-    //draw(std::string(buf));
-  }
+  }//end while(t<Tmax)
   
 }
 
@@ -276,7 +261,7 @@ void simpleMD<NSD>::handleCollisionEvent(Event e) {
     particles[id1].v[dim] *= -coeff_rest;
 
     //log wall collision
-    datafile << "$Event,"<<1<<" "<<e.time<<std::endl;
+    datafile << "$Event "<<1<<" "<<e.time<<std::endl;
     datafile << id1 << " ";
     for(unsigned i=0; i<NSD-1; ++i) {
       datafile << particles[id1].v[i] << " ";
@@ -317,7 +302,7 @@ void simpleMD<NSD>::handleCollisionEvent(Event e) {
   }
 
   //log event in output
-  datafile << "$Event,"<<2<<" "<<e.time<<std::endl;
+  datafile << "$Event "<<2<<" "<<e.time<<std::endl;
   datafile << id1 << " ";
   for(unsigned i=0; i<NSD-1; ++i) {
     datafile << particles[id1].v[i] << " ";
@@ -330,6 +315,7 @@ void simpleMD<NSD>::handleCollisionEvent(Event e) {
   datafile << particles[id2].v[NSD-1] << std::endl;;
 }
 
+/*
 template<unsigned NSD>
 void simpleMD<NSD>::draw(const std::string &fname) {
   
@@ -358,6 +344,6 @@ void simpleMD<NSD>::draw(const std::string &fname) {
   timg_writepng(fname.c_str(), img);  
   timg_destroy(img);
 }
-
+*/
 
 #endif

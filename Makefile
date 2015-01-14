@@ -1,29 +1,32 @@
-cppfiles = $(shell ls *.cpp)
-ofiles = $(cppfiles:.cpp=.o)
-exefiles = $(cppfiles:.cpp=.exe)
-
-CFLAGS = -O3 -c -Wall -I/home/tyler/src/timg/src/
-LFLAGS = -L/home/tyler/src/timg/lib/ -ltimg -lm -lpng -ljpeg -ltiff
+CFLAGS = -O3 -c -Wall -I/home/tyler/src/timg/src/ -std=c++11
+LFLAGS = -L/home/tyler/src/timg/lib/ -ltimg -lm -lpng -ljpeg -ltiff -pthread
 CPP = g++
 
-all: depend $(exefiles)
+all: .simpleMD_depend .basic_postProcess_depend simpleMD_driver basic_postProcess
 
+.simpleMD_depend: simpleMD_driver.cpp
+	rm -f .simpleMD_depend
+	$(CPP) -MM $^ -MF .simpleMD_depend
 
-depend: .depend
+.basic_postProcess_depend: basic_postProcess.cpp FrameRenderer.cpp
+	rm -f .basic_postProcess_depend .tmp
+	for f in $^; do $(CPP) $(CFLAGS) -MM $$f -MF .tmp; cat .tmp >> .basic_postProcess_depend; done
 
-.depend: $(cppfiles)
-	rm -f ./.depend
-	$(CPP) $(CFLAGS) -MM $^ -MF ./.depend
+include .simpleMD_depend
+include .basic_postProcess_depend
 
-include .depend
-
-%.exe: %.o
+simpleMD_driver: simpleMD_driver.o
 	$(CPP) $< $(LFLAGS) -o $@
+
+basic_postProcess: basic_postProcess.o FrameRenderer.o
+	$(CPP) $^ $(LFLAGS) -o $@	
 
 %.o: %.cpp
 	$(CPP) $< $(CFLAGS)
 
-clean:
-	rm $(ofiles) $(exefiles) .depend *.png
 
-.PHONY: depend clean all
+
+clean:
+	rm *.o simpleMD_driver basic_postProcess .simpleMD_depend .basic_postProcess_depend *.png .tmp
+
+.PHONY: clean all
