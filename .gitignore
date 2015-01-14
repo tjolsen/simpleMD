@@ -43,3 +43,5 @@
 #simpleMD output files
 *.smd
 
+#video files
+*.avi

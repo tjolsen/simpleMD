@@ -17,9 +17,9 @@ template<unsigned NSD>
 void simpleMD<NSD>::setup() {
   
   nsd = NSD;
-  L = 1;
-  nParticles = 5;
-  vo = 1;
+  L = 10;
+  nParticles = 1000;
+  vo = 10;
   R = 0.1;
   coeff_rest = 1.0;
   Tmax = 10;
@@ -65,7 +65,7 @@ void simpleMD<NSD>::setup() {
   }
 
   //write data file initial data
-  datafile << nParticles << " " << NSD << std::endl;
+  datafile << nParticles << " " << NSD << " " << L << std::endl;
   for(unsigned p=0; p<nParticles; ++p) {
     Particle<NSD> P = particles[p];
     for(unsigned i=0; i<NSD; ++i) {

@@ -11,13 +11,23 @@
 class FrameRenderer {
 
 public:
+  struct event {
+    double et;
+    unsigned np;
+    std::vector<int> pid;
+    std::vector<std::vector<double>> newV;
+  };
+  
   std::ifstream infile; 
- double timestep;
+  double timestep;
   double Tfinal;
+  double L;
   std::string imageBasename;
   std::vector< std::vector<double> > points;
+  std::vector< std::vector<double> > velocity;
   std::vector<double> radii;
-
+  std::vector<event> Events;
+    
   FrameRenderer();
   FrameRenderer(const char *f, double dt, double Tmax);
   void setImageBasename();
@@ -25,6 +35,6 @@ public:
   
 };
 
-void render_range(const FrameRenderer *FR, int f1, int f2);
+void render_range(const FrameRenderer *FR, int f1, int f2, double L);
 
 #endif

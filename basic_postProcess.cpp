@@ -1,10 +1,16 @@
 #include "FrameRenderer.hpp"
+#include <iostream>
+#include <thread>
 
-
-int main() {
+int main(int argc, char **argv) {
   
-  FrameRenderer FR("img_",0.01,10);
-  FR.Render(8);
+  if(argc < 2) {
+    std::cout << "Supply smd file name\n";
+    return 1;
+  }
+
+  FrameRenderer FR(argv[1],0.01,10);
+  FR.Render(std::thread::hardware_concurrency());
 
   return 0;
 }
