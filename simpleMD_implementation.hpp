@@ -17,8 +17,8 @@ template<unsigned NSD>
 void simpleMD<NSD>::setup() {
   
   nsd = NSD;
-  L = 10;
-  nParticles = 1000;
+  L = 100;
+  nParticles = 20000;
   vo = 10;
   R = 0.1;
   coeff_rest = 1.0;

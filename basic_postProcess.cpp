@@ -9,7 +9,7 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  FrameRenderer FR(argv[1],0.01,10);
+  FrameRenderer FR(argv[1],0.02,10);
   FR.Render(std::thread::hardware_concurrency());
 
   return 0;
